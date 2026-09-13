@@ -63,7 +63,7 @@ npm run build:extension
 ```
 
 Installing dependencies also enables the Husky pre-commit hook. Each commit
-runs `npm run check`, which includes Biome checks and TypeScript validation.
+runs `npx lint-staged`, which runs `biome check --write` on staged changes.
 
 The output is written to `extension/dist/`. To load it temporarily in Firefox:
 
