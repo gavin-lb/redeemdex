@@ -1,6 +1,7 @@
 # RedeemDex
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Firefox AOM](https://img.shields.io/amo/v/redeemdex?label=Firefox)](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/)
 
 **Redeeming Pokémon TCG Live codes made easy.**
 
@@ -30,6 +31,10 @@ official redemption page.
 3. Review the list and click **Start**.
 4. Sign in, if needed.
 5. Sit back and relax as **RedeemDex** processes all your codes.
+
+|  |  |  |
+| :--- | :---: | ---: |
+| ![Add your codes](docs/slide1.png) |  ![Click start](docs/slide2.png)  | ![Sit back and relaxy](docs/slide3.png) |
 
 ## Privacy
 
