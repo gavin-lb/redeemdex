@@ -53,7 +53,7 @@ clear steps to reproduce bugs and verify any behavioral changes when possible.
 - Node.js and npm
 - Firefox
 
-### Building form source
+### Building from source
 
 Clone the repo, then install dependencies and build the extension:
 
