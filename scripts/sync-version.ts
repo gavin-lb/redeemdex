@@ -6,9 +6,18 @@ const manifestPaths = ["extension/public/manifest.json"];
 const version = process.env.npm_package_version;
 
 for (const manifestPath of manifestPaths) {
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-  manifest.version = version;
-  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  const contents = fs.readFileSync(manifestPath, "utf8");
+
+  const updated = contents.replace(
+    /("version"\s*:\s*)"[^"]*"/,
+    `$1"${version}"`,
+  );
+
+  if (updated === contents) {
+    throw new Error(`Could not find version in ${manifestPath}`);
+  }
+
+  fs.writeFileSync(manifestPath, updated);
 }
 
 execFileSync("git", ["add", ...manifestPaths], { stdio: "inherit" });
