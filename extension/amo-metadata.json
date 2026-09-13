@@ -1,0 +1,14 @@
+{
+  "name": {
+    "en-US": "RedeemDex"
+  },
+  "summary": {
+    "en-US": "Redeeming Pokémon TCG Live codes made easy."
+  },
+  "categories": {
+    "firefox": ["other"]
+  },
+  "version": {
+    "license": "MIT"
+  }
+}

@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "RedeemDex",
   "version": "1.3.1",
-  "description": "Enter, track, validate, and redeem Pokémon TCG Live codes.",
+  "description": "Redeeming Pokémon TCG Live codes made easy.",
+  "license": "MIT",
   "permissions": ["tabs", "storage", "scripting"],
   "host_permissions": [
     "https://redeem.tcg.pokemon.com/*",

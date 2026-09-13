@@ -22,7 +22,8 @@
     "typecheck": "npm run typecheck:extension && npm run typecheck:mock",
     "typecheck:extension": "tsc -p extension/tsconfig.json",
     "typecheck:mock": "tsc -p mock/tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "publish": "npm run build:extension && dotenv -e .env -- sh -c 'npx --yes web-ext@10.6.0 sign --source-dir extension/dist --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"'"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.13",
@@ -31,6 +32,7 @@
     "@types/react-dom": "^19.1.9",
     "@types/webextension-polyfill": "^0.10.7",
     "concurrently": "^10.0.5",
+    "dotenv-cli": "^11.0.0",
     "husky": "^9.1.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
