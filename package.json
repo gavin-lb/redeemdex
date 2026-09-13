@@ -45,6 +45,9 @@
     "esbuild": true
   },
   "dependencies": {
-    "@material-design-icons/svg": "^0.14.15"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.4.0",
+    "@mui/material": "^9.4.0"
   }
 }

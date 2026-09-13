@@ -852,13 +852,6 @@ button:disabled {
   flex: 0 0 auto;
   display: block;
 }
-.icon svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  fill: currentColor;
-}
-
 .heading-icon .icon {
   width: 17px;
   height: 17px;

@@ -1,3 +1,18 @@
+import AutoAwesome from "@mui/icons-material/AutoAwesome";
+import Cancel from "@mui/icons-material/Cancel";
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import Close from "@mui/icons-material/Close";
+import DarkMode from "@mui/icons-material/DarkMode";
+import Delete from "@mui/icons-material/Delete";
+import Description from "@mui/icons-material/Description";
+import FileUpload from "@mui/icons-material/FileUpload";
+import FormatListBulleted from "@mui/icons-material/FormatListBulleted";
+import Help from "@mui/icons-material/Help";
+import Info from "@mui/icons-material/Info";
+import LightMode from "@mui/icons-material/LightMode";
+import PlayArrow from "@mui/icons-material/PlayArrow";
+import Schedule from "@mui/icons-material/Schedule";
+import Stop from "@mui/icons-material/Stop";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { browser } from "../platform/browser";
 import { canonicalCode, normaliseCode, normaliseCodes } from "../shared/codes";
@@ -9,7 +24,6 @@ import {
   THEME_KEY,
 } from "../shared/constants";
 import type { CodeItem, ThemePreference } from "../shared/types";
-import { Icon } from "./icons";
 import "./popup.css";
 
 type Theme = "light" | "dark";
@@ -470,6 +484,8 @@ export default function App() {
 
   const currentKind = statusKind(status);
   const dark = effectiveTheme === "dark";
+  const StatusIcon =
+    currentKind === "error" ? Cancel : currentKind === "success" ? CheckCircle : Info;
 
   return (
     <main className="app-shell">
@@ -509,14 +525,31 @@ export default function App() {
             }}
           >
             <span className="theme-switch-track">
-              <Icon name="light-mode" className="theme-switch-icon theme-switch-sun icon" />
+              <LightMode
+                className="theme-switch-icon theme-switch-sun icon"
+                aria-hidden="true"
+                focusable="false"
+              />
               <span className="theme-switch-thumb">
-                <Icon
-                  name={dark ? "dark-mode" : "light-mode"}
-                  className="theme-switch-thumb-icon icon"
-                />
+                {dark ? (
+                  <DarkMode
+                    className="theme-switch-thumb-icon icon"
+                    aria-hidden="true"
+                    focusable="false"
+                  />
+                ) : (
+                  <LightMode
+                    className="theme-switch-thumb-icon icon"
+                    aria-hidden="true"
+                    focusable="false"
+                  />
+                )}
               </span>
-              <Icon name="dark-mode" className="theme-switch-icon theme-switch-moon icon" />
+              <DarkMode
+                className="theme-switch-icon theme-switch-moon icon"
+                aria-hidden="true"
+                focusable="false"
+              />
             </span>
           </button>
           <button
@@ -534,13 +567,13 @@ export default function App() {
               });
             }}
           >
-            <Icon name="help" />
+            <Help aria-hidden="true" focusable="false" />
           </button>
           {helpOpen && (
             <div className="help-popover" role="dialog" aria-label="How it works">
               <div className="help-popover-title">
                 <span className="help-popover-icon">
-                  <Icon name="help" />
+                  <Help aria-hidden="true" focusable="false" />
                 </span>
                 <strong>How it works</strong>
                 <button
@@ -551,7 +584,7 @@ export default function App() {
                     setHelpOpen(false);
                   }}
                 >
-                  <Icon name="close" />
+                  <Close aria-hidden="true" focusable="false" />
                 </button>
               </div>
               <ol>
@@ -571,7 +604,7 @@ export default function App() {
                 </li>
               </ol>
               <div className="help-popover-foot">
-                <Icon name="info" /> Works with{" "}
+                <Info aria-hidden="true" focusable="false" /> Works with{" "}
                 <a href={REDEMPTION_HOME_URL}>Pokémon TCG Live Code Redemption</a>
               </div>
             </div>
@@ -584,7 +617,7 @@ export default function App() {
           <div className="section-heading">
             <div className="heading-with-icon">
               <span className="heading-icon">
-                <Icon name="description" />
+                <Description aria-hidden="true" focusable="false" />
               </span>
               <div>
                 <h2>Code input</h2>
@@ -619,15 +652,15 @@ export default function App() {
               disabled={starting}
               onClick={() => void startRedemption()}
             >
-              <Icon name="play" className="button-icon icon" />
+              <PlayArrow className="button-icon icon" aria-hidden="true" focusable="false" />
               Start
             </button>
             <button className="button stop" type="button" onClick={() => void stopRedemption()}>
-              <Icon name="stop" className="button-icon icon" />
+              <Stop className="button-icon icon" aria-hidden="true" focusable="false" />
               Stop
             </button>
             <button className="button clear-button" type="button" onClick={() => void openImport()}>
-              <Icon name="upload" className="button-icon icon" />
+              <FileUpload className="button-icon icon" aria-hidden="true" focusable="false" />
               Import
             </button>
           </div>
@@ -637,7 +670,7 @@ export default function App() {
           <div className="results-top">
             <div className="heading-with-icon">
               <span className="heading-icon list-icon">
-                <Icon name="list" />
+                <FormatListBulleted aria-hidden="true" focusable="false" />
               </span>
               <div>
                 <h2>Results</h2>
@@ -650,26 +683,26 @@ export default function App() {
               type="button"
               onClick={() => setClearOpen(true)}
             >
-              <Icon name="delete" />
+              <Delete aria-hidden="true" focusable="false" />
               Clear all
             </button>
           </div>
           <div className="summary" aria-hidden="true">
             <span className="summary-pill valid">
-              <Icon name="check-circle" className="pill-icon icon" />{" "}
+              <CheckCircle className="pill-icon icon" aria-hidden="true" focusable="false" />{" "}
               <strong>{totals.valid}</strong> Valid
             </span>
             <span className="summary-pill redeemed">
-              <Icon name="auto-awesome" className="pill-icon icon" />{" "}
+              <AutoAwesome className="pill-icon icon" aria-hidden="true" focusable="false" />{" "}
               <strong>{totals.redeemed}</strong> Redeemed
             </span>
             <span className="summary-pill invalid">
-              <Icon name="cancel" className="pill-icon icon" /> <strong>{totals.invalid}</strong>{" "}
-              Invalid
+              <Cancel className="pill-icon icon" aria-hidden="true" focusable="false" />{" "}
+              <strong>{totals.invalid}</strong> Invalid
             </span>
             <span className="summary-pill pending">
-              <Icon name="schedule" className="pill-icon icon" /> <strong>{totals.pending}</strong>{" "}
-              Not tried
+              <Schedule className="pill-icon icon" aria-hidden="true" focusable="false" />{" "}
+              <strong>{totals.pending}</strong> Not tried
             </span>
           </div>
           <div className="results-table">
@@ -687,21 +720,21 @@ export default function App() {
               ) : (
                 items.map((item) => {
                   const kind = item.statusClass || "pending";
-                  const resultIcon =
+                  const ResultIcon =
                     kind === "valid"
-                      ? "check-circle"
+                      ? CheckCircle
                       : kind === "redeemed"
-                        ? "auto-awesome"
+                        ? AutoAwesome
                         : kind === "invalid"
-                          ? "cancel"
+                          ? Cancel
                           : kind === "pending"
-                            ? "schedule"
-                            : "info";
+                            ? Schedule
+                            : Info;
                   return (
                     <div className="result" key={canonicalCode(item.code)}>
                       <span className="code">{item.code}</span>
                       <span className={`result-status ${kind}`}>
-                        <Icon name={resultIcon} />
+                        <ResultIcon aria-hidden="true" focusable="false" />
                         {item.status || "Not tried"}
                       </span>
                     </div>
@@ -715,15 +748,7 @@ export default function App() {
 
       <footer className="status" role="status" aria-live="polite">
         <span className={`status-icon ${currentKind}`}>
-          <Icon
-            name={
-              currentKind === "error"
-                ? "cancel"
-                : currentKind === "success"
-                  ? "check-circle"
-                  : "info"
-            }
-          />
+          <StatusIcon aria-hidden="true" focusable="false" />
         </span>
         <span className="status-text">{status}</span>
       </footer>
@@ -753,7 +778,7 @@ export default function App() {
             aria-describedby="clear-dialog-message"
           >
             <div className="dialog-icon">
-              <Icon name="delete" />
+              <Delete aria-hidden="true" focusable="false" />
             </div>
             <div className="dialog-copy">
               <h2 id="clear-dialog-title">Clear all codes?</h2>
@@ -773,7 +798,7 @@ export default function App() {
                 disabled={!items.length}
                 onClick={() => void clearAll()}
               >
-                <Icon name="delete" className="button-icon icon" />
+                <Delete className="button-icon icon" aria-hidden="true" focusable="false" />
                 Clear all
               </button>
             </div>

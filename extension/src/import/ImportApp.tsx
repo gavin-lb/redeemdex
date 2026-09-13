@@ -1,6 +1,7 @@
+import Description from "@mui/icons-material/Description";
+import FileUpload from "@mui/icons-material/FileUpload";
 import { useEffect, useRef, useState } from "react";
 import { browser } from "../platform/browser";
-import { Icon } from "../popup/icons";
 
 type MessageKind = "" | "error" | "success";
 
@@ -110,7 +111,7 @@ export default function ImportApp() {
         <div className="title-row">
           <div className="title-copy">
             <div className="title-icon" aria-hidden="true">
-              <Icon name="description" />
+              <Description aria-hidden="true" focusable="false" />
             </div>
             <div>
               <h2>Import codes</h2>
@@ -145,13 +146,13 @@ export default function ImportApp() {
           onDrop={handleDrop}
         >
           <div className="drop-icon" aria-hidden="true">
-            <Icon name="upload" />
+            <FileUpload aria-hidden="true" focusable="false" />
           </div>
           <div className="drop-title">Drop your .txt file here</div>
           <p className="drop-copy">or choose a file from your computer</p>
           <div className="drop-format">One or more codes per line</div>
           <span id="choose">
-            <Icon name="upload" />
+            <FileUpload aria-hidden="true" focusable="false" />
             Choose .txt file
           </span>
         </button>
