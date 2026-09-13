@@ -32,7 +32,10 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "ptcgl-code-redeemer@example.invalid"
+      "id": "ptcgl-code-redeemer@example.invalid",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "icons": {
