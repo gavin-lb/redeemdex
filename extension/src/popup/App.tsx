@@ -180,6 +180,9 @@ export default function App() {
   async function getExistingRedeemTab(): Promise<
     Awaited<ReturnType<typeof browser.tabs.query>>[number] | null
   > {
+    const mockPatterns = ["http://127.0.0.1:8000/*", "http://localhost:8000/*"];
+    const officialPatterns = ["https://redeem.tcg.pokemon.com/*"];
+
     const matchesRedemptionOrigin = (tab: { url?: string }): boolean => {
       if (!tab.url) return false;
       try {
@@ -194,18 +197,33 @@ export default function App() {
     };
 
     const activeTabs = await browser.tabs.query({ active: true });
-    const activeMatch = activeTabs.find(matchesRedemptionOrigin);
-    if (activeMatch) return activeMatch;
+    const activeMock = activeTabs.find((tab) =>
+      mockPatterns.some((pattern) => {
+        const origin = pattern.replace(/\/\*$/, "");
+        return tab.url ? new URL(tab.url).origin === new URL(origin).origin : false;
+      }),
+    );
+    if (activeMock) return activeMock;
 
-    for (const pattern of REDEMPTION_URLS) {
+    for (const pattern of mockPatterns) {
       const matchingTabs = await browser.tabs.query({ url: pattern });
       const match = matchingTabs.find(matchesRedemptionOrigin);
       if (match) return match;
     }
 
-    const tabs = await browser.tabs.query({});
-    const match = tabs.find(matchesRedemptionOrigin);
-    if (match) return match;
+    const activeOfficial = activeTabs.find((tab) =>
+      officialPatterns.some((pattern) => {
+        const origin = pattern.replace(/\/\*$/, "");
+        return tab.url ? new URL(tab.url).origin === new URL(origin).origin : false;
+      }),
+    );
+    if (activeOfficial) return activeOfficial;
+
+    for (const pattern of officialPatterns) {
+      const matchingTabs = await browser.tabs.query({ url: pattern });
+      const match = matchingTabs.find(matchesRedemptionOrigin);
+      if (match) return match;
+    }
 
     return null;
   }
