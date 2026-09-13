@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redeem Pokémon TCG Live Codes — Mock</title>
+</head>
+<body>
+  <header data-testid="header">
+    <a class="tcg-logo-link" href="/" aria-label="Pokémon Trading Card Game">
+      <img class="tcg-logo" alt="Pokémon Trading Card Game" src="/assets/TCG_EN_fbJT.png">
+    </a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/">Pokémon TCG Live</a>
+      <span>Username</span>
+      <span class="logout" aria-hidden="true">↪</span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="title-bar">
+        <img src="/assets/TCGL_EN_fbJT.png" alt="Pokémon TCG Live" class="tcgl-logo">
+        <h1>Pokémon TCG Live Code Redemption</h1>
+      </div>
+
+      <div class="intro">
+        <div class="intro-text">
+          Enter codes from Pokémon TCG booster packs, decks, and other specially<br>
+          marked Pokémon TCG products to get cool Pokémon TCG Live items.
+        </div>
+        <div class="ratings">
+          <img src="/assets/gb_fbJT.png" alt="UK / Ireland rating">
+          <img src="/assets/au_fbJT.png" alt="Australia rating">
+        </div>
+      </div>
+
+      <div class="verify-module" data-testid="verify-module">
+        <form id="verify-form">
+          <label for="code">Enter Code (10 max)</label>
+          <div class="input-wrap">
+            <input id="code" type="text" autocomplete="off">
+            <span class="camera" aria-hidden="true">▣</span>
+          </div>
+          <button class="blue-button" data-testid="verify-code-button" type="submit">
+            <span>Submit Code</span><span class="arrow">›</span>
+          </button>
+        </form>
+
+        <div class="sample-card">
+          <img src="/assets/cardBack_EN_fbJT.jpg" alt="Back of the code card">
+        </div>
+      </div>
+    </section>
+
+    <section class="rewards">
+      <h2>Redeem Rewards</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pokémon TCG Live Code</th>
+              <th>Item(s)</th>
+              <th>Redeemed</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div data-testid="no-reward-message" class="empty">You have not submitted any codes</div>
+      </div>
+      <div class="buttons">
+        <button class="red-button" data-testid="button-clear-table" type="button">Clear Table</button>
+        <button class="blue-button redeem" data-testid="button-redeem" type="button" disabled>
+          <span>Redeem</span>
+        </button>
+      </div>
+      <div class="redemption-error" data-testid="redemption-error"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social">●　●　●　●</div>
+    <strong>The Pokémon Company</strong>
+    <button type="button">UK/Ireland</button>
+  </footer>
+
+  <script type="module" src="/src/app.ts"></script>
+</body>
+</html>

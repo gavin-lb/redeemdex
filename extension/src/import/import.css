@@ -1,0 +1,327 @@
+:root {
+  color-scheme: light;
+  --blue: #0878dc;
+  --blue-dark: #075eb0;
+  --blue-soft: #eaf5ff;
+  --yellow: #ffd52f;
+  --text: #102f62;
+  --muted: #6b82a3;
+  --border: #d4e4f6;
+  --surface: #ffffff;
+  --surface-2: #f5faff;
+  --shadow: 0 18px 50px rgba(20, 69, 130, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 620px;
+  min-height: 460px;
+  margin: 0;
+  overflow: hidden;
+  font:
+    13px / 1.45 system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: var(--text);
+  background: #edf6ff;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+
+main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  padding: 20px;
+  background: linear-gradient(180deg, #f4faff 0%, #f9fcff 55%, #eef7ff 100%);
+}
+
+.panel {
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.title-copy {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.title-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: var(--blue);
+  background: var(--blue-soft);
+}
+.title-icon .icon,
+.drop-icon .icon,
+#choose .icon {
+  display: block;
+  flex: 0 0 auto;
+}
+.title-icon .icon {
+  width: 21px;
+  height: 21px;
+}
+.title-icon .icon svg,
+.drop-icon .icon svg,
+#choose .icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+h2 {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.1;
+}
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.drop-zone {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 28px;
+  border: 2px dashed #b8d5f4;
+  border-radius: 15px;
+  background: var(--surface-2);
+  text-align: center;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    transform 0.16s ease;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--blue);
+  background: #e8f4ff;
+  transform: scale(1.005);
+}
+
+.drop-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  color: var(--blue);
+  background: #e5f3ff;
+}
+.drop-icon .icon {
+  width: 30px;
+  height: 30px;
+}
+.drop-title {
+  margin: 2px 0 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+.drop-copy {
+  margin: 0;
+  color: var(--muted);
+}
+.drop-format {
+  margin-top: 2px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #52739e;
+  background: #e9f3fc;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+button {
+  min-height: 42px;
+  padding: 0 20px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  font-weight: 800;
+}
+#choose {
+  display: inline-flex;
+  margin-top: 4px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, #1287ea, #0868c9);
+  box-shadow: 0 5px 13px rgba(8, 120, 220, 0.2);
+}
+#choose .icon {
+  width: 16px;
+  height: 16px;
+}
+#choose:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.message {
+  min-height: 21px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.message.error {
+  color: #d62c4a;
+}
+.message.success {
+  color: #0c9a72;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* Match the popup's persisted theme, rather than relying only on the OS theme. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #e8f1ff;
+  --muted: #9bb2cf;
+  --border: #31506f;
+  --surface: #142438;
+  --surface-2: #122337;
+  --blue-soft: #153653;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: #0b1624;
+}
+
+html[data-theme="dark"] main {
+  background: linear-gradient(180deg, #0d1d2f 0%, #0b192a 100%);
+}
+
+html[data-theme="dark"] .panel {
+  background: rgba(20, 36, 56, 0.97);
+}
+
+html[data-theme="dark"] .drop-zone {
+  border-color: #355777;
+  background-color: #122337;
+}
+
+html[data-theme="dark"] .drop-zone.drag-over {
+  border-color: #1689e8;
+  background: #173a5c;
+}
+
+html[data-theme="dark"] .drop-icon {
+  background: #16334e;
+  color: #70b9f8;
+}
+
+html[data-theme="dark"] .drop-format {
+  color: #a8bfd9;
+  background: #1a3047;
+}
+
+html[data-theme="dark"] .message.error {
+  color: #ff8fa4;
+}
+html[data-theme="dark"] .message.success {
+  color: #54d9b0;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* System theme is used only while the popup's preference is "system". */
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --text: #e8f1ff;
+    --muted: #9bb2cf;
+    --border: #31506f;
+    --surface: #142438;
+    --surface-2: #122337;
+    --blue-soft: #153653;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  :root:not([data-theme="light"]),
+  :root:not([data-theme="light"]) body {
+    background: #0b1624;
+  }
+
+  :root:not([data-theme="light"]) main {
+    background: linear-gradient(180deg, #0d1d2f 0%, #0b192a 100%);
+  }
+
+  :root:not([data-theme="light"]) .panel {
+    background: rgba(20, 36, 56, 0.97);
+  }
+  :root:not([data-theme="light"]) .drop-zone {
+    border-color: #355777;
+    background-color: #122337;
+  }
+  :root:not([data-theme="light"]) .drop-zone.drag-over {
+    border-color: #1689e8;
+    background: #173a5c;
+  }
+  :root:not([data-theme="light"]) .drop-icon {
+    background: #16334e;
+    color: #70b9f8;
+  }
+  :root:not([data-theme="light"]) .drop-format {
+    color: #a8bfd9;
+    background: #1a3047;
+  }
+  :root:not([data-theme="light"]) .message.error {
+    color: #ff8fa4;
+  }
+  :root:not([data-theme="light"]) .message.success {
+    color: #54d9b0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drop-zone {
+    transition: none;
+  }
+}
