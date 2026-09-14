@@ -1,4 +1,4 @@
-import { browser } from "../platform/browser";
+import browser from "webextension-polyfill";
 import { INVALID_MESSAGES, REDEEM_BATCH_SIZE as redeemBatchSize } from "../shared/constants";
 import type { ExtensionMessage, StatusClass } from "../shared/types";
 
@@ -52,6 +52,15 @@ import type { ExtensionMessage, StatusClass } from "../shared/types";
         ?.querySelector("table") ||
       document.querySelector(TABLE_SELECTOR) ||
       document.querySelector("table")
+    );
+  }
+
+  function isRedemptionPage(): boolean {
+    return Boolean(
+      document.querySelector("#code") ||
+        document.querySelector('[data-testid="verify-code-button"]') ||
+        document.querySelector('[data-testid="button-redeem"]') ||
+        getTable(),
     );
   }
 
@@ -436,7 +445,7 @@ import type { ExtensionMessage, StatusClass } from "../shared/types";
   browser.runtime.onMessage.addListener((rawMessage) => {
     const message = rawMessage as ExtensionMessage;
     if (message.type === "ping") {
-      return Promise.resolve({ ready: true });
+      return Promise.resolve({ ready: isRedemptionPage() });
     }
 
     if (message.type === "redeem-codes") {

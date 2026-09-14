@@ -1,7 +1,7 @@
 import Description from "@mui/icons-material/Description";
 import FileUpload from "@mui/icons-material/FileUpload";
 import { useEffect, useRef, useState } from "react";
-import { browser } from "../platform/browser";
+import browser from "webextension-polyfill";
 
 type MessageKind = "" | "error" | "success";
 

@@ -1,6 +1,6 @@
 import { RUN_STATUS_KEY, STORAGE_KEY } from "../shared/constants";
 import type { CodeItem, ExtensionState } from "../shared/types";
-import { browser } from "./browser";
+import browser from "webextension-polyfill";
 
 export async function getState(): Promise<ExtensionState> {
   const data = await browser.storage.local.get([STORAGE_KEY, RUN_STATUS_KEY]);

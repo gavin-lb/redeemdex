@@ -14,7 +14,7 @@ import PlayArrow from "@mui/icons-material/PlayArrow";
 import Schedule from "@mui/icons-material/Schedule";
 import Stop from "@mui/icons-material/Stop";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { browser } from "../platform/browser";
+import browser from "webextension-polyfill";
 import { canonicalCode, normaliseCode, normaliseCodes } from "../shared/codes";
 import {
   REDEMPTION_HOME_URL,

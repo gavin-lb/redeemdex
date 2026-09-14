@@ -1,4 +1,4 @@
-import { browser } from "../platform/browser";
+import browser from "webextension-polyfill";
 import { getState, setItems } from "../platform/storage";
 import { canonicalCode } from "../shared/codes";
 import { CODE_RE, RUN_STATUS_KEY, STORAGE_KEY } from "../shared/constants";
