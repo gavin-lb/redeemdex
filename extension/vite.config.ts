@@ -10,13 +10,11 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: resolve(root, "dist", mode),
     emptyOutDir: true,
-    sourcemap: false,
+    sourcemap: true,
     rollupOptions: {
       input: {
         popup: resolve(src, "popup/index.html"),
         import: resolve(src, "import/index.html"),
-        background: resolve(src, "background/index.ts"),
-        content: resolve(src, "content/index.ts"),
       },
       output: {
         entryFileNames: "[name].js",
