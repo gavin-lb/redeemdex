@@ -3,12 +3,8 @@
   "name": "RedeemDex",
   "version": "1.4.0",
   "description": "Redeeming Pokémon TCG Live codes made easy.",
-  "permissions": ["tabs", "storage", "scripting"],
-  "host_permissions": [
-    "https://redeem.tcg.pokemon.com/*",
-    "http://127.0.0.1/*",
-    "http://localhost/*"
-  ],
+  "permissions": ["storage", "scripting", "activeTab"],
+  "host_permissions": ["https://redeem.tcg.pokemon.com/*"],
   "action": {
     "default_title": "RedeemDex",
     "default_popup": "popup/index.html",
@@ -22,7 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://redeem.tcg.pokemon.com/*", "http://127.0.0.1/*", "http://localhost/*"],
+      "matches": ["https://redeem.tcg.pokemon.com/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }

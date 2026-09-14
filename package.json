@@ -9,8 +9,10 @@
   ],
   "scripts": {
     "build": "npm run build:extension && npm run build:mock",
-    "build:extension:firefox": "vite build --mode firefox --config extension/vite.config.ts && vite build --mode firefox --config extension/vite.background.config.ts && vite build --mode firefox --config extension/vite.content.config.ts && tsx scripts/build-extension-manifest.ts firefox",
-    "build:extension:chrome": "vite build --mode chrome --config extension/vite.config.ts && vite build --mode chrome --config extension/vite.background.config.ts && vite build --mode chrome --config extension/vite.content.config.ts && tsx scripts/build-extension-manifest.ts chrome",
+    "build:extension:firefox:dev": "tsx scripts/build-extension.ts firefox dev",
+    "build:extension:chrome:dev": "tsx scripts/build-extension.ts chrome dev",
+    "build:extension:firefox": "tsx scripts/build-extension.ts firefox prod",
+    "build:extension:chrome": "tsx scripts/build-extension.ts chrome prod",
     "build:extension": "npm run build:extension:firefox && npm run build:extension:chrome",
     "build:mock": "npm --prefix mock run build",
     "dev:extension": "concurrently --kill-others \"vite build --watch --mode firefox --config extension/vite.ui.config.ts\" \"vite build --watch --mode firefox --config extension/vite.background.config.ts\" \"vite build --watch --mode firefox --config extension/vite.content.config.ts\"",
@@ -26,7 +28,8 @@
     "typecheck:extension": "tsc -p extension/tsconfig.json",
     "typecheck:mock": "tsc -p mock/tsconfig.json",
     "test": "vitest run",
-    "publish:firefox": "npm run build:extension:firefox && dotenv -e .env -- sh -c 'npx --yes web-ext@10.6.0 sign --source-dir extension/dist/firefox --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"'",
+    "publish:firefox": "npm run build:extension:firefox && dotenv -e .env -- sh -c 'npx --yes web-ext@10.6.0 sign --source-dir extension/dist/prod/firefox --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"'",
+    "publish:chrome": "npm run build:extension:chrome && dotenv -e .env -- chrome-webstore-upload --source extension/dist/prod/chrome",
     "version": "node scripts/sync-version.ts"
   },
   "devDependencies": {
@@ -35,6 +38,7 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@types/webextension-polyfill": "^0.10.7",
+    "chrome-webstore-upload-cli": "^4.0.1",
     "concurrently": "^10.0.5",
     "dotenv-cli": "^11.0.0",
     "husky": "^9.1.7",
@@ -44,7 +48,8 @@
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vitest": "^3.2.4",
-    "webextension-polyfill": "^0.12.0"
+    "webextension-polyfill": "^0.12.0",
+    "tsx": "^4.23.13"
   },
   "allowScripts": {
     "esbuild": true
