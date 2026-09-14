@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Firefox AOM](https://img.shields.io/amo/v/redeemdex?label=Firefox)](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/)
 
-**Redeeming Pokémon TCG Live codes made easy.**
+### Redeeming Pokémon TCG Live codes made easy.
 
 <p align="center">
 <img width="289" height="266" src="extension/public/assets/logo.png" />
@@ -13,6 +13,10 @@ RedeemDex is a Firefox WebExtension for entering, validating, importing, and
 batch-redeeming Pokémon TCG Live codes. It keeps the code list and redemption
 status in local extension storage while the content script operates on the
 official redemption page.
+
+### Acknowledgments
+
+This project is co-authored by GPT-5.6 Luna. 
 
 ## Features
 
