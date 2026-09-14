@@ -60,27 +60,36 @@ clear steps to reproduce bugs and verify any behavioral changes when possible.
 
 ### Building from source
 
-Clone the repo, then install dependencies and build the extension:
+Clone the repo, then install dependencies:
 
 ```bash
+git clone https://github.com/gavin-lb/redeemdex.git
+cd redeemdex
 npm install
-npm run build:extension
 ```
 
 Installing dependencies also enables the Husky pre-commit hook. Each commit
 runs `npx lint-staged`, which runs `biome check --write` on staged changes.
 
-The output is written to `extension/dist/firefox/` and `extension/dist/chrome/`.
+Then you can build the extensions with
+```bash
+npm run build:extension
+```
+Output is written to `extension/dist/prod/firefox/` and
+`extension/dist/prod/chrome/` with zipped versions in `extension/dist/prod`.
+
 To load the Firefox build temporarily:
 
-1. Open [`about:debugging#/runtime/this-firefox`](about:debugging#/runtime/this-firefox).
-2. Click **Load Temporary Add-on**.
-3. Select `extension/dist/firefox/manifest.json`.
+1. Open `about:debugging#/runtime/this-firefox`,
+2. Click **Load Temporary Add-on**,
+3. Select `extension/dist/prod/firefox/manifest.json`.
 
-Rebuild after source changes and reload the temporary add-on from the same page.
+To load the Chrome build:
+1. Open `chrome://extensions`, 
+2. Enable **Developer mode**,
+3. Click **Load unpacked**, and select `extension/dist/prod/chrome/`.
 
-To load the Chrome build, open `chrome://extensions`, enable **Developer mode**,
-click **Load unpacked**, and select `extension/dist/chrome/`.
+Rebuild after source changes and reload the temporary add-on from the same pages.
 
 ### Local mock
 
@@ -88,14 +97,27 @@ The repository includes a local mock redemption page for testing without contact
 Pokémon services. It uses the same DOM patterns expected by the content script
 and returns simulated redemption outcomes.
 
+To use the mock page, the extension needs additional host permission. To keep these out
+of the production build, development build scripts are used to build development versions of
+the extension. For a development build with localhost permissions, run the relevant
+build script:
+
+```bash
+npm run build:extension:firefox:dev
+npm run build:extension:chrome:dev
+```
+
+This writes the unpacked extension to `extension/dist/dev/firefox/` or
+`extension/dist/dev/chrome/` respectively.
+
 Build and serve the mock from the repository root:
 
 ```bash
 npm run mock
 ```
 
-Then open `http://127.0.0.1:8000/` and load the extension from
-`extension/dist/`. The mock is covered by the extension's local host permission in both browser builds.
+Load the relevant extension from `extension/dist/dev` and open `http://127.0.0.1:8000/`. 
+The mock is covered by the extension's local host permission in both browser builds.
 
 For Vite development mode:
 
@@ -107,10 +129,13 @@ npm run dev:mock
 
 | Command | Purpose |
 | --- | --- |
-| `npm run build` | Build the extension and mock |
-| `npm run build:extension` | Build only the extension |
+| `npm run build` | Build the extensions and mock |
+| `npm run build:extension` | Build only the extensions |
+| `npm run build:extension:firefox:dev` | Build the Firefox extension for local development |
+| `npm run build:extension:chrome:dev` | Build the Chrome extension for local development |
 | `npm run build:mock` | Build only the mock |
 | `npm run check` | Run Biome checks and TypeScript checks |
+| `npm run check:fix` | Run Biome checks and TypeScript checks with `--write` |
 | `npm run typecheck` | Type-check the extension and mock |
 | `npm test` | Run the test suite |
 | `npm run dev:extension` | Watch the extension build |
