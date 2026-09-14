@@ -18,13 +18,15 @@ import browser from "webextension-polyfill";
 import { canonicalCode, normaliseCode, normaliseCodes } from "../shared/codes";
 import {
   REDEMPTION_HOME_URL,
-  REDEMPTION_URLS,
   RUN_STATUS_KEY,
   STORAGE_KEY,
   THEME_KEY,
 } from "../shared/constants";
 import type { CodeItem, ThemePreference } from "../shared/types";
 import "./popup.css";
+
+const OPEN_REDEMPTION_STATUS =
+  "Open the Pokémon TCG Live Code Redemption page in the active tab, then click Start.";
 
 type Theme = "light" | "dark";
 
@@ -46,16 +48,15 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-function isRedemptionOrigin(url: string | undefined): boolean {
-  if (!url) return false;
-  try {
-    return REDEMPTION_URLS.some((pattern) => {
-      const origin = pattern.replace(/\/\*$/, "");
-      return new URL(url).origin === new URL(origin).origin;
-    });
-  } catch {
-    return false;
-  }
+function StatusContent({ status }: { status: string }) {
+  if (status !== OPEN_REDEMPTION_STATUS) return status;
+
+  return (
+    <>
+      Open the <a href={REDEMPTION_HOME_URL}>Pokémon TCG Live Code Redemption</a> in the active tab,
+      then click Start.
+    </>
+  );
 }
 
 export default function App() {
@@ -191,63 +192,6 @@ export default function App() {
     if (input.trim()) await addCodes(normaliseCodes(input));
   }
 
-  async function getExistingRedeemTab(): Promise<
-    Awaited<ReturnType<typeof browser.tabs.query>>[number] | null
-  > {
-    const mockPatterns = ["http://127.0.0.1:8000/*", "http://localhost:8000/*"];
-    const officialPatterns = ["https://redeem.tcg.pokemon.com/*"];
-
-    const matchesRedemptionOrigin = (tab: { url?: string }): boolean => {
-      if (!tab.url) return false;
-      try {
-        const tabOrigin = new URL(tab.url).origin;
-        return REDEMPTION_URLS.some((pattern) => {
-          const origin = pattern.replace(/\/\*$/, "");
-          return tabOrigin === new URL(origin).origin;
-        });
-      } catch {
-        return false;
-      }
-    };
-
-    const activeTabs = await browser.tabs.query({ active: true });
-    const activeMock = activeTabs.find((tab) =>
-      mockPatterns.some((pattern) => {
-        const origin = pattern.replace(/\/\*$/, "");
-        return tab.url ? new URL(tab.url).origin === new URL(origin).origin : false;
-      }),
-    );
-    if (activeMock) return activeMock;
-
-    for (const pattern of mockPatterns) {
-      const matchingTabs = await browser.tabs.query({ url: pattern });
-      const match = matchingTabs.find(matchesRedemptionOrigin);
-      if (match) return match;
-    }
-
-    const activeOfficial = activeTabs.find((tab) =>
-      officialPatterns.some((pattern) => {
-        const origin = pattern.replace(/\/\*$/, "");
-        return tab.url ? new URL(tab.url).origin === new URL(origin).origin : false;
-      }),
-    );
-    if (activeOfficial) return activeOfficial;
-
-    for (const pattern of officialPatterns) {
-      const matchingTabs = await browser.tabs.query({ url: pattern });
-      const match = matchingTabs.find(matchesRedemptionOrigin);
-      if (match) return match;
-    }
-
-    return null;
-  }
-
-  async function getRedeemTab(): Promise<Awaited<ReturnType<typeof browser.tabs.create>>> {
-    const existing = await getExistingRedeemTab();
-    if (existing) return existing;
-    return browser.tabs.create({ url: REDEMPTION_HOME_URL });
-  }
-
   async function waitForTabReady(tabId: number): Promise<void> {
     for (let attempt = 0; attempt < 60; attempt++) {
       const tab = await browser.tabs.get(tabId);
@@ -258,39 +202,23 @@ export default function App() {
   }
 
   async function ensureContentScript(tabId: number): Promise<void> {
-    let lastError: unknown;
-    for (let attempt = 0; attempt < 30; attempt++) {
-      try {
-        await browser.tabs.sendMessage(tabId, { type: "ping" });
-        return;
-      } catch (error) {
-        lastError = error;
-        try {
-          if (browser.scripting?.executeScript) {
-            try {
-              await browser.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
-            } catch (scriptingError) {
-              lastError = scriptingError;
-              await browser.tabs.executeScript(tabId, { file: "content.js" });
-            }
-          } else {
-            await browser.tabs.executeScript(tabId, { file: "content.js" });
-          }
-          await browser.tabs.sendMessage(tabId, { type: "ping" });
-          return;
-        } catch (injectionError) {
-          lastError = injectionError;
-        }
-      }
-      await new Promise((resolve) => setTimeout(resolve, 500));
+    const response = await browser.tabs.sendMessage(tabId, { type: "ping" }).catch(() => null);
+    if ((response as { ready?: boolean } | undefined)?.ready) return;
+
+    if (!browser.scripting?.executeScript) {
+      throw new Error("Script injection is unavailable in this browser.");
     }
-    throw lastError ?? new Error("Could not connect to the redemption page.");
+    await browser.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
+
+    const injectedResponse = await browser.tabs.sendMessage(tabId, { type: "ping" });
+    if ((injectedResponse as { ready?: boolean } | undefined)?.ready) return;
+    throw new Error("The active tab is not a supported redemption page.");
   }
 
   async function startRedemption(): Promise<void> {
     if (starting) return;
     setStarting(true);
-    let tab: Awaited<ReturnType<typeof browser.tabs.create>> | undefined;
+    let tab: Awaited<ReturnType<typeof browser.tabs.query>>[number] | null = null;
     try {
       await commitInput();
       const data = await browser.storage.local.get(STORAGE_KEY);
@@ -302,7 +230,12 @@ export default function App() {
       }
 
       setRunStatus("Preparing redemption page...");
-      tab = await getRedeemTab();
+      const activeTabs = await browser.tabs.query({ active: true, lastFocusedWindow: true });
+      tab = activeTabs[0] ?? null;
+      if (!tab) {
+        setRunStatus(OPEN_REDEMPTION_STATUS);
+        return;
+      }
       if (tab.id == null) throw new Error("The redemption tab has no ID.");
       await waitForTabReady(tab.id);
       await ensureContentScript(tab.id);
@@ -326,12 +259,11 @@ export default function App() {
     } catch (error) {
       const message = errorMessage(error);
       if (
-        /missing host permission|host permission/i.test(message) &&
-        isRedemptionOrigin(tab?.url)
+        /missing host permission|host permission|not a supported redemption page|could not establish connection|receiving end does not exist/i.test(
+          message,
+        )
       ) {
-        setRunStatus(
-          "Please finish signing in to Pokémon TCG Live in the opened tab, then click Start again.",
-        );
+        setRunStatus(OPEN_REDEMPTION_STATUS);
       } else {
         setRunStatus(`Could not start: ${message}`);
       }
@@ -342,7 +274,8 @@ export default function App() {
 
   async function stopRedemption(): Promise<void> {
     try {
-      const tab = await getExistingRedeemTab();
+      const activeTabs = await browser.tabs.query({ active: true, lastFocusedWindow: true });
+      const tab = activeTabs[0];
       if (tab?.id != null) {
         await browser.tabs.sendMessage(tab.id, { type: "stop" });
         setRunStatus("Stopped.");
@@ -386,7 +319,8 @@ export default function App() {
       return;
     }
     try {
-      const tab = await getExistingRedeemTab();
+      const activeTabs = await browser.tabs.query({ active: true, lastFocusedWindow: true });
+      const tab = activeTabs[0];
       if (tab?.id != null) {
         await browser.tabs.sendMessage(tab.id, { type: "stop" });
       }
@@ -750,7 +684,9 @@ export default function App() {
         <span className={`status-icon ${currentKind}`}>
           <StatusIcon aria-hidden="true" focusable="false" />
         </span>
-        <span className="status-text">{status}</span>
+        <span className="status-text">
+          <StatusContent status={status} />
+        </span>
       </footer>
 
       {clearOpen && (

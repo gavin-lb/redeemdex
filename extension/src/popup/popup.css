@@ -746,6 +746,24 @@ textarea:focus {
   white-space: nowrap;
 }
 
+.status-text a {
+  color: var(--yellow);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.status-text a:hover {
+  color: #fff;
+}
+
+.status-text a:focus-visible {
+  color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 .dialog-backdrop {
   position: fixed;
   inset: 0;
