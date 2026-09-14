@@ -8,9 +8,11 @@
   ],
   "scripts": {
     "build": "npm run build:extension && npm run build:mock",
-    "build:extension": "vite build --config extension/vite.config.ts && vite build --config extension/vite.background.config.ts && vite build --config extension/vite.content.config.ts",
+    "build:extension:firefox": "vite build --mode firefox --config extension/vite.config.ts && vite build --mode firefox --config extension/vite.background.config.ts && vite build --mode firefox --config extension/vite.content.config.ts && tsx scripts/build-extension-manifest.ts firefox",
+    "build:extension:chrome": "vite build --mode chrome --config extension/vite.config.ts && vite build --mode chrome --config extension/vite.background.config.ts && vite build --mode chrome --config extension/vite.content.config.ts && tsx scripts/build-extension-manifest.ts chrome",
+    "build:extension": "npm run build:extension:firefox && npm run build:extension:chrome",
     "build:mock": "npm --prefix mock run build",
-    "dev:extension": "concurrently --kill-others \"vite build --watch --config extension/vite.ui.config.ts\" \"vite build --watch --config extension/vite.background.config.ts\" \"vite build --watch --config extension/vite.content.config.ts\"",
+    "dev:extension": "concurrently --kill-others \"vite build --watch --mode firefox --config extension/vite.ui.config.ts\" \"vite build --watch --mode firefox --config extension/vite.background.config.ts\" \"vite build --watch --mode firefox --config extension/vite.content.config.ts\"",
     "dev:mock": "npm --prefix mock run dev",
     "mock": "npm --prefix mock run serve",
     "prepare": "husky",
@@ -23,7 +25,7 @@
     "typecheck:extension": "tsc -p extension/tsconfig.json",
     "typecheck:mock": "tsc -p mock/tsconfig.json",
     "test": "vitest run",
-    "publish": "npm run build:extension && dotenv -e .env -- sh -c 'npx --yes web-ext@10.6.0 sign --source-dir extension/dist --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"'",
+    "publish:firefox": "npm run build:extension:firefox && dotenv -e .env -- sh -c 'npx --yes web-ext@10.6.0 sign --source-dir extension/dist/firefox --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"'",
     "version": "node scripts/sync-version.ts"
   },
   "devDependencies": {

@@ -38,12 +38,13 @@ body {
     "Segoe UI",
     sans-serif;
   color: var(--text);
-  background: #edf6ff;
+  background: transparent;
 }
-
 body {
   border-radius: 16px;
+  overflow: hidden;
 }
+
 button,
 textarea {
   font: inherit;

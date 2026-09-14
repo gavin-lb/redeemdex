@@ -4,13 +4,13 @@ import { defineConfig } from "vite";
 const root = resolve(__dirname);
 const src = resolve(root, "src");
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root: src,
   publicDir: resolve(root, "public"),
   build: {
-    outDir: resolve(root, "dist"),
+    outDir: resolve(root, "dist", mode),
     emptyOutDir: false,
-    sourcemap: true,
+    sourcemap: false,
     rollupOptions: {
       input: {
         popup: resolve(src, "popup/index.html"),
@@ -23,4 +23,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

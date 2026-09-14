@@ -9,8 +9,9 @@
 <img width="289" height="266" src="extension/public/assets/logo.png" />
 </p>
 
-RedeemDex is a Firefox WebExtension for entering, validating, importing, and
-batch-redeeming Pokémon TCG Live codes. It keeps the code list and redemption
+RedeemDex is a browser extension for entering, validating, importing, and
+batch-redeeming Pokémon TCG Live codes. The same source builds packages for
+both Firefox and Chrome. It keeps the code list and redemption
 status in local extension storage while the content script operates on the
 official redemption page.
 
@@ -55,7 +56,7 @@ clear steps to reproduce bugs and verify any behavioral changes when possible.
 ### Requirements
 
 - Node.js and npm
-- Firefox
+- Firefox or Chrome
 
 ### Building from source
 
@@ -69,13 +70,17 @@ npm run build:extension
 Installing dependencies also enables the Husky pre-commit hook. Each commit
 runs `npx lint-staged`, which runs `biome check --write` on staged changes.
 
-The output is written to `extension/dist/`. To load it temporarily in Firefox:
+The output is written to `extension/dist/firefox/` and `extension/dist/chrome/`.
+To load the Firefox build temporarily:
 
 1. Open [`about:debugging#/runtime/this-firefox`](about:debugging#/runtime/this-firefox).
 2. Click **Load Temporary Add-on**.
-3. Select `extension/dist/manifest.json`.
+3. Select `extension/dist/firefox/manifest.json`.
 
 Rebuild after source changes and reload the temporary add-on from the same page.
+
+To load the Chrome build, open `chrome://extensions`, enable **Developer mode**,
+click **Load unpacked**, and select `extension/dist/chrome/`.
 
 ### Local mock
 
@@ -90,7 +95,7 @@ npm run mock
 ```
 
 Then open `http://127.0.0.1:8000/` and load the extension from
-`extension/dist/`. The mock is covered by the extension's local host permission.
+`extension/dist/`. The mock is covered by the extension's local host permission in both browser builds.
 
 For Vite development mode:
 
@@ -131,9 +136,11 @@ mock/
 └── dist/             # Generated mock output
 ```
 
-The extension uses Manifest V3 with Firefox's `background.scripts` model. The
-background and content scripts receive dedicated classic-script builds so they
-work when loaded by Firefox.
+The extension uses Manifest V3 on both browsers. Firefox uses its
+`background.scripts` model, while Chrome uses a Manifest V3 `background.service_worker`.
+The background and content scripts receive dedicated classic-script builds so
+they work in both browsers. Browser-specific manifests are kept in
+`extension/manifests/` and generated into each build directory.
 
 ## Disclaimer
 
