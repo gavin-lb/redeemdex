@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RedeemDex",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Redeeming Pokémon TCG Live codes made easy.",
   "permissions": ["storage", "scripting", "activeTab"],
   "host_permissions": ["https://redeem.tcg.pokemon.com/*"],

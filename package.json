@@ -1,6 +1,6 @@
 {
   "name": "redeemdex",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "type": "module",
   "private": true,
   "description": "RedeemDex browser extension and local Pokémon TCG Live redemption mock.",
