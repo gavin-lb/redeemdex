@@ -6,7 +6,7 @@
 ### Redeeming Pokémon TCG Live codes made easy.
 
 <p align="center">
-<img width="289" height="266" src="extension/public/assets/logo.png" />
+<img width="289" height="266" src="docs/logo.png" />
 </p>
 
 RedeemDex is a browser extension for entering, validating, importing, and
