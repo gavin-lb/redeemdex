@@ -12,7 +12,7 @@
 
 RedeemDex is a browser extension for entering, validating, importing, and
 batch-redeeming Pokémon TCG Live codes. The same source builds packages for
-both Firefox and Chrome. It keeps the code list and redemption
+both [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/) and [Chrome](https://chromewebstore.google.com/detail/redeemdex/mkmeoienhkdimaecmkkobbcohemkmnme). It keeps the code list and redemption
 status in local extension storage while the content script operates on the
 official redemption page.
 
