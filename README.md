@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Firefox AOM](https://img.shields.io/amo/v/redeemdex?label=Firefox)](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mkmeoienhkdimaecmkkobbcohemkmnme?label=Chrome)](https://chromewebstore.google.com/detail/redeemdex/mkmeoienhkdimaecmkkobbcohemkmnme)
 
 ### Redeeming Pokémon TCG Live codes made easy.
 
