@@ -52,7 +52,7 @@ This project is co-authored by GPT-5.6 Luna.
    are submitted through the official Pokémon TCG Live redemption page in your browser. 
 
  - **RedeemDex** does not have permission to access the [Pokémon OAuth login page](https://access.pokemon.com/login), 
-and therefore cannot access or collect your Pokémon account credentials or login information. Nor does not collect any
+and therefore cannot access or collect your Pokémon account credentials or login information. Nor does it collect any
 personal information, usage data, analytics, or telemetry.
 
  - **RedeemDex** is fully open source with all code publicly available in this GitHub repository. Builds are automatically
