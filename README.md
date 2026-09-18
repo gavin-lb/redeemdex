@@ -10,11 +10,11 @@
 <img width="289" height="266" src="docs/logo.png" />
 </p>
 
-RedeemDex is a browser extension for entering, validating, importing, and
-batch-redeeming Pokémon TCG Live codes. The same source builds packages for
-both [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/) and [Chrome](https://chromewebstore.google.com/detail/redeemdex/mkmeoienhkdimaecmkkobbcohemkmnme). It keeps the code list and redemption
-status in local extension storage while the content script operates on the
-official redemption page.
+RedeemDex is a browser extension for [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/) and 
+[Chrome](https://chromewebstore.google.com/detail/redeemdex/mkmeoienhkdimaecmkkobbcohemkmnme) that helps with 
+redeeming Pokémon TCG Live codes. It keeps the code list and redemption status in local extension storage 
+while the content script operates on the official [Pokémon TCG Live Code Redemption](https://redeem.tcg.pokemon.com)
+page.
 
 ### Acknowledgments
 
@@ -22,21 +22,24 @@ This project is co-authored by GPT-5.6 Luna.
 
 ## Features
 
-- Paste multiple codes into the React toolbar popup.
-- Import one or more codes from a `.txt` file using a separate drag-and-drop window.
-- Validate code format before redemption.
+- Paste multiple codes into the extension toolbar popup.
+- Import one or more codes from a `.txt` file using the file browser or with drag-and-drop.
+- Validates code format before redemption.
 - Prevent duplicates, including codes already saved in the extension.
 - Track pending, valid, redeemed, invalid, and failed codes.
-- Detect redemption activity performed directly on the redemption page.
+- Detect code status from activity performed directly on the redemption page.
 - Follow the system theme or switch between light and dark themes.
 
 ## How to use
 
-1. Open RedeemDex from the extensions toolbar.
-2. Paste codes into the input area, or choose **Import** and select/drag-and-drop a `.txt` file.
-3. Review the list and click **Start**.
-4. Sign in, if needed.
-5. Sit back and relax as **RedeemDex** processes all your codes.
+1. Install the extension with [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/redeemdex/)
+   or [Chrome](https://chromewebstore.google.com/detail/redeemdex/mkmeoienhkdimaecmkkobbcohemkmnme).
+3. Navigate to the official [Pokémon TCG Live Code Redemption](https://redeem.tcg.pokemon.com)
+   and sign in, if needed.
+4. Open the **RedeemDex** popup from the extensions toolbar.
+5. Paste codes into the input area, or choose **Import** and select or drag-and-drop a `.txt` file.
+6. Review the list and click **Start**.
+7. Sit back and relax as **RedeemDex** processes all your codes.
 
 |  |  |  |
 | :--- | :---: | ---: |
@@ -44,9 +47,18 @@ This project is co-authored by GPT-5.6 Luna.
 
 ## Privacy
 
-Codes and statuses are stored with the extension's local storage. RedeemDex
-does not send codes to a separate server. Redemption requests are performed by
-the Pokémon TCG Live redemption page in the browser.
+ - **RedeemDex** runs entirely locally in your browser and does not send codes or any other information to a separate
+   server. Codes and their redemption statuses are stored in the extension's local browser storage. Redemption requests
+   are submitted through the official Pokémon TCG Live redemption page in your browser. 
+
+ - **RedeemDex** does not have permission to access the [Pokémon OAuth login page](https://access.pokemon.com/login), 
+and therefore cannot access or collect your Pokémon account credentials or login information. Nor does not collect any
+personal information, usage data, analytics, or telemetry.
+
+ - **RedeemDex** is fully open source with all code publicly available in this GitHub repository. Builds are automatically
+   created by GitHub Actions and published to the repository's Releases section for users who wish to install
+   the extension manually.
+
 
 ## Contributing
 
