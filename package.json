@@ -28,8 +28,10 @@
     "typecheck:extension": "tsc -p extension/tsconfig.json",
     "typecheck:mock": "tsc -p mock/tsconfig.json",
     "test": "vitest run",
-    "publish:firefox": "npm run build:extension:firefox && dotenv -e .env -- sh -c 'npx --yes web-ext@10.6.0 sign --source-dir extension/dist/prod/firefox --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"'",
-    "publish:chrome": "npm run build:extension:chrome && dotenv -e .env -- chrome-webstore-upload --source extension/dist/prod/chrome",
+    "publish:firefox": "node scripts/with-dotenv.js npm run publish:firefox:inner",
+    "publish:firefox:inner": "npm run build:extension:firefox && web-ext sign --source-dir extension/dist/prod/firefox --channel=listed --amo-metadata extension/amo-metadata.json --api-key=\"$WEB_EXT_API_KEY\" --api-secret=\"$WEB_EXT_API_SECRET\"",
+    "publish:chrome": "node scripts/with-dotenv.js npm run publish:chrome:inner",
+    "publish:chrome:inner": "npm run build:extension:chrome && chrome-webstore-upload --extension-id \"$CHROME_EXTENSION_ID\" --source extension/dist/prod/chrome",    
     "version": "node scripts/sync-version.ts"
   },
   "devDependencies": {
