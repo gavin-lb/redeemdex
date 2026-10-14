@@ -41,7 +41,13 @@ function statusKind(text: string): "error" | "success" | "info" {
 }
 
 function isRetryable(item: CodeItem): boolean {
-  return !item.status || item.status === "Not tried" || item.statusClass === "error";
+  return (
+    !item.status ||
+    item.status === "Not tried" ||
+    item.statusClass === "pending" ||
+    item.statusClass === "valid" ||
+    item.statusClass === "error"
+  );
 }
 
 function errorMessage(error: unknown): string {
