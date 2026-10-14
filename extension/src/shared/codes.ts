@@ -1,4 +1,9 @@
-import { CODE_RE } from "./constants";
+import { CODE_CHARS, CODE_RE } from "./constants";
+
+const CODE_MATCH_RE = new RegExp(
+  `(?:^|[^A-Za-z0-9-])([${CODE_CHARS}]{3}-?[${CODE_CHARS}]{4}(?:-?[${CODE_CHARS}]{3}){2})(?![A-Za-z0-9-])`,
+  "gi",
+);
 
 export function canonicalCode(code: string): string {
   return code.replace(/[\s-]/g, "").toUpperCase();
@@ -9,10 +14,7 @@ export function normaliseCode(code: string): string {
 }
 
 export function normaliseCodes(value: string): string[] {
-  return value
-    .split(/\s+/)
-    .map((code) => code.trim())
-    .filter(Boolean);
+  return Array.from(value.matchAll(CODE_MATCH_RE), ([, code]) => code);
 }
 
 export function isValidFormat(code: string): boolean {

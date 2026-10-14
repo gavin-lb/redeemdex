@@ -12,6 +12,29 @@ describe("code helpers", () => {
   });
 
   it("splits pasted codes on whitespace", () => {
-    expect(normaliseCodes("ABC\nDEF  GHI")).toEqual(["ABC", "DEF", "GHI"]);
+    expect(normaliseCodes("MXK-RXJL-2PD-TZ9\nWMX-2CZC-WPQ-KLM")).toEqual([
+      "MXK-RXJL-2PD-TZ9",
+      "WMX-2CZC-WPQ-KLM",
+    ]);
+  });
+
+  it("extracts comma-separated codes", () => {
+    expect(normaliseCodes("MXK-RXJL-2PD-TZ9, WMX-2CZC-WPQ-KLM, 4PC-NDCX-BXR-Z2C")).toEqual([
+      "MXK-RXJL-2PD-TZ9",
+      "WMX-2CZC-WPQ-KLM",
+      "4PC-NDCX-BXR-Z2C",
+    ]);
+  });
+
+  it("extracts codes and ignores other text", () => {
+    expect(
+      normaliseCodes(
+        "[Scarlet & Violet - Shrouded Fable Booster Pack: 1-2]\nMXK-RXJL-2PD-TZ9\n\n[Another format: 3-4]\nWMX-2CZC-WPQ-KLM",
+      ),
+    ).toEqual(["MXK-RXJL-2PD-TZ9", "WMX-2CZC-WPQ-KLM"]);
+  });
+
+  it("does not extract partial matches from malformed tokens", () => {
+    expect(normaliseCodes("!MXK-RXJL-2PD-TZ9X malformed-code")).toEqual([]);
   });
 });

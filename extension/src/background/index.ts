@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 import { getState, setItems } from "../platform/storage";
-import { canonicalCode } from "../shared/codes";
+import { canonicalCode, normaliseCodes } from "../shared/codes";
 import { CODE_RE, RUN_STATUS_KEY, STORAGE_KEY } from "../shared/constants";
 import type { CodeItem, ExtensionMessage, ImportResult } from "../shared/types";
 
@@ -12,15 +12,8 @@ function queueStorageMutation<T>(operation: () => Promise<T>): Promise<T> {
   return next;
 }
 
-function normaliseImportedCodes(value: string): string[] {
-  return value
-    .split(/\s+/)
-    .map((code) => code.trim().toUpperCase())
-    .filter(Boolean);
-}
-
 async function storeCodes(text: string, verb: "Added" | "Imported"): Promise<ImportResult> {
-  const inputCodes = normaliseImportedCodes(text);
+  const inputCodes = normaliseCodes(text).map((code) => code.toUpperCase());
   const data = await browser.storage.local.get(STORAGE_KEY);
   const old = (data[STORAGE_KEY] as { codes?: CodeItem[] } | undefined)?.codes ?? [];
   const existing = new Set(old.map((item) => canonicalCode(item.code)));
